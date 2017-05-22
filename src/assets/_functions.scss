@@ -1,0 +1,16 @@
+$CUSTOM_WIDTH: 1688;
+$CUSTOM_HEIGHT: 950;
+
+@function getSizeByVW($px, $vw, $scale: 1) {
+     @return $px / ($vw * $scale) * 100 + vw;
+}
+@function getSizeByVH($px, $vh, $scale: 1) {
+     @return $px / ($vh * $scale) * 100 + vh;
+}
+
+@function getSizeByCustomWidth($px) {
+     @return getSizeByVW($px, $CUSTOM_WIDTH);
+}
+@function getSizeByCustomHeight($px) {
+     @return getSizeByVH($px, $CUSTOM_HEIGHT );
+}
