@@ -1,12 +1,12 @@
 <template>
   <div class="root">
     <header :class="colorTheme">
-      <span class="bigger-text">{{data.name}}</span>
-      <span class="smaller-text">(Price: {{data.price}})</span>
+      <span class="bigger-text">{{stock.name}}</span>
+      <span class="smaller-text">({{subHeaderText}}: {{stock.quantity}})</span>
     </header>
-    <form :class="colorTheme">
-      <input class="form-control"></input>
-      <button :class="`btn ${btnClass}`">{{buttonText}}</button>
+    <form :class="colorTheme" v-on:submit.prevent>
+      <input class="form-control" v-model="quantity" placeholder="Quantity"></input>
+      <button :class="`btn ${btnClass}`" @click="buy">{{buttonText}}</button>
     </form>
   </div>
 </template>
@@ -17,10 +17,12 @@ export default {
     isBuy: {
       default: true
     },
-    data: {}
+    stock: {}
   },
-  created() {
-
+  data() {
+    return {
+      quantity: ''
+    }
   },
   computed: {
     buttonText() {
@@ -31,6 +33,17 @@ export default {
     },
     btnClass() {
       return this.isBuy ? 'btn-success' : 'btn-danger'
+    },
+    subHeaderText() {
+      return this.isBuy ? 'Price' : 'Quantity'
+    }
+  },
+  methods: {
+    buy() {
+      this.$store.dispatch('portfolio/addStock', {
+        name: this.stock.name,
+        quantity: this.quantity
+      });
     }
   }
 }
