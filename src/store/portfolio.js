@@ -18,8 +18,8 @@ const portfolio = {
     }
   },
   actions: {
-    addStock(context, name, quantity) {
-      context.commit('addStock', name, quantity);
+    addStock(context, payload) {
+      context.commit('addStock', payload);
     }
   }
 }

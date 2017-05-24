@@ -8,8 +8,12 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
 
-          <router-link to="/portfolio" tag="li" activeClass="active"><a>Portfolio</a></router-link>
-          <router-link to="/stocks" tag="li" activeClass="active"><a>Stocks</a></router-link>
+          <router-link to="/portfolio" tag="li" activeClass="active">
+            <a>Portfolio</a>
+          </router-link>
+          <router-link to="/stocks" tag="li" activeClass="active">
+            <a>Stocks</a>
+          </router-link>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
@@ -19,7 +23,7 @@
             <a href="../navbar-static-top/">Save&Load</a>
           </li>
           <li>
-            <a :style="{'font-weight':'bold'}" href="../navbar-fixed-top/">Funds: 10,000$</a>
+            <a :style="{'font-weight':'bold'}" href="../navbar-fixed-top/">Funds: {{funds}}</a>
           </li>
         </ul>
       </div>
@@ -31,9 +35,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-
+  computed: {
+    funds() {
+      return this.$store.getters['funds/funds'];
     }
   }
 }

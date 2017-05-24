@@ -10,7 +10,6 @@ import Stock from '../components/stock.vue'
 export default {
   computed: {
     portfolio() {
-      debugger;
       return this.$store.getters['portfolio/getPortfolio']
     }
   },

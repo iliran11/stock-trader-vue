@@ -5,7 +5,7 @@
       <span class="smaller-text">({{subHeaderText}}: {{stock.quantity}})</span>
     </header>
     <form :class="colorTheme" v-on:submit.prevent>
-      <input class="form-control" v-model="quantity" placeholder="Quantity"></input>
+      <input class="form-control" v-model="quantity" placeholder="Quantity" type="number"></input>
       <button :class="`btn ${btnClass}`" @click="buy">{{buttonText}}</button>
     </form>
   </div>
@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      quantity: ''
+      quantity: null
     }
   },
   computed: {
@@ -42,8 +42,11 @@ export default {
     buy() {
       this.$store.dispatch('portfolio/addStock', {
         name: this.stock.name,
-        quantity: this.quantity
-      });
+        quantity: parseInt(this.quantity),
+        price: this.stock.quantity
+      }).then(() => {
+        this.$store.dispatch('funds/transaction', this.stock.quantity * parseInt(this.quantity) * -1);
+      })
     }
   }
 }

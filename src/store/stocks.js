@@ -18,11 +18,6 @@ const stocks = {
     addStock(state, stock) {
       state.list.push(stock);
     }
-  },
-  actions: {
-    addStock(context, stock) {
-      context.commit('addStock', stock)
-    }
   }
 }
 
