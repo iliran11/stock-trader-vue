@@ -1,22 +1,20 @@
 const funds = {
-  namespaced: true,
   state: {
-    funds: 10000
+    funds: 100
   },
   getters: {
-    funds(state) {
+    fundsStatus(state) {
       return state.funds.toLocaleString() + '$';
     }
   },
   mutations: {
-    transaction(state, payload) {
+    transactionMutate(state, payload) {
       state.funds += payload
     }
   },
   actions: {
-    transaction(context, payload) {
-      debugger;
-      context.commit('transaction', payload);
+    transactionChange(context, payload) {
+      context.commit('transactionMutate', payload);
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <stock v-for="(stock,index) in portfolio" :key="index" :stock="{name:stock.name,quantity:stock.quantity}" :isBuy="false">
+    <stock v-for="(stock,index) in portfolio" :key="index" :stock="stock" :isBuy="false">
     </stock>
   </div>
 </template>
@@ -10,7 +10,7 @@ import Stock from '../components/stock.vue'
 export default {
   computed: {
     portfolio() {
-      return this.$store.getters['portfolio/getPortfolio']
+      return this.$store.getters['portfolioList']
     }
   },
   components: { Stock }

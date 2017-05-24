@@ -1,25 +1,33 @@
 const portfolio = {
-  namespaced: true,
   state: {
     portfolio: []
   },
   getters: {
-    getPortfolio(state) {
-      return state.portfolio;
+    getPortfolio(state, getters, rootState) {
+      console.log(state.portfolio);
+      return state.portfolio.map(currentStock => {
+        return {
+          name: state.portfolio.name,
+          quantity: state.portfolio.quantity
+        }
+      });
     }
   },
   mutations: {
-    addStock(state, payload) {
+    addSellStock(state, payload) {
       try {
         state.portfolio.find(findStock, payload).quantity += payload.quantity;
       } catch (e) {
-        state.portfolio.push({ name: payload.name, quantity: payload.quantity });
+        state.portfolio.push({
+          name: payload.name,
+          quantity: payload.quantity
+        });
       }
     }
   },
   actions: {
-    addStock(context, payload) {
-      context.commit('addStock', payload);
+    addSellStock(context, payload) {
+      context.commit('addSellStock', payload);
     }
   }
 }

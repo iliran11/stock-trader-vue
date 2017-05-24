@@ -1,18 +1,18 @@
 <template>
   <div>
     <section class="stocks-grid">
-      <stock class="stock" :isBuy="true" :stock="stock" v-for="(stock,index) in stocks" key="index"></stock>
+      <stock class="stock" :stock="stock" v-for="(stock,index) in stocks" key="index"></stock>
     </section>
   </div>
 </template>
 
 <script>
-import stock from '../components/stock'
+import stock from '../components/stockNew'
 export default {
   name: 'stocks',
   computed: {
     stocks() {
-      return this.$store.getters['stocks/getList']
+      return this.$store.getters['stocksList']
     }
   },
   components: { stock }

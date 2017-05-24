@@ -9,7 +9,12 @@
 import appHeader from './components/header-bootstrap.vue'
 export default {
   name: 'app',
-  components: { appHeader }
+  components: { appHeader },
+  created() {
+    this.$store.dispatch('init').then(() => {
+      this.$store.dispatch('endDay');
+    })
+  }
 }
 </script>
 

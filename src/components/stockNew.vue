@@ -1,13 +1,12 @@
 <template>
   <div class="root">
-    <header class="sell">
+    <header class="buy">
       <span class="bigger-text">{{stock.name}}</span>
-      <span class="smaller-text">(Quantity: {{stock.portfolioQuantity}})</span>
-      <span class="smaller-text">(currentPrice: {{stock.currentPrice}})</span>
+      <span class="smaller-text">(Price: {{stock.currentPrice}})</span>
     </header>
-    <form class="sell" v-on:submit.prevent>
+    <form class="buy" v-on:submit.prevent>
       <input class="form-control" v-model="quantity" placeholder="Quantity" type="number"></input>
-      <button class="btn btn-danger" @click="sell">Sell</button>
+      <button class="btn btn-success" @click="buy">Buy</button>
     </form>
   </div>
 </template>
@@ -23,21 +22,22 @@ export default {
     }
   },
   methods: {
-    sell() {
+    buy() {
       this.$store.dispatch('buySell', {
         stockName: this.stock.name,
-        quantityChange: parseInt(this.quantity) * -1,
+        quantityChange: parseInt(this.quantity),
         currentPrice: this.stock.currentPrice
-      })
+      });
     }
   }
 }
 </script>
+
 <style scoped lang="scss">
 @import '../assets/functions';
-.sell {
-  background-color: #DAEEF6;
-  border: 1px solid #EDF6F8;
+.buy {
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
 }
 
 .root {

@@ -17,13 +17,16 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="./">End Day</a>
+            <a @click="endDay">End Day </a>
           </li>
           <li>
-            <a href="../navbar-static-top/">Save&Load</a>
+            <a>Save&Load</a>
           </li>
           <li>
-            <a :style="{'font-weight':'bold'}" href="../navbar-fixed-top/">Funds: {{funds}}</a>
+            <a v-on:click.prevent :style="{'font-weight':'bold'}" href="">Funds: {{funds}}</a>
+          </li>
+          <li>
+            <a v-on:click.prevent>Turn: {{turn}}</a>
           </li>
         </ul>
       </div>
@@ -37,7 +40,15 @@
 export default {
   computed: {
     funds() {
-      return this.$store.getters['funds/funds'];
+      return this.$store.getters['fundsStatus'];
+    },
+    turn() {
+      return this.$store.getters['getTurn'];
+    }
+  },
+  methods: {
+    endDay() {
+      this.$store.dispatch('endDay');
     }
   }
 }
