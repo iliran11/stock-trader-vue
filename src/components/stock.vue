@@ -5,10 +5,13 @@
       <span class="smaller-text">(Quantity: {{stock.portfolioQuantity}})</span>
       <span class="smaller-text">(currentPrice: {{stock.currentPrice}})</span>
     </header>
-    <form class="sell" v-on:submit.prevent>
-      <input class="form-control" v-model="quantity" placeholder="Quantity" type="number"></input>
-      <button class="btn btn-danger" @click="sell">Sell</button>
-    </form>
+    <section>
+      <form class="sell" v-on:submit.prevent>
+        <input class="form-control" v-model="quantity" placeholder="Quantity" type="number"></input>
+        <button class="btn btn-danger" @click="sell">Sell</button>
+      </form>
+      <p id="sell-value">{{sellValue}}</p>
+    </section>
   </div>
 </template>
 
@@ -20,6 +23,11 @@ export default {
   data() {
     return {
       quantity: null
+    }
+  },
+  computed: {
+    sellValue() {
+      return this.quantity ? `Sell Value:${this.quantity * this.stock.currentPrice}` : ''
     }
   },
   methods: {
@@ -50,9 +58,12 @@ header {
   padding: getSizeByCustomWidth(15); // border: 1px solid $borderColor;
 }
 
+section {
+  padding: getSizeByCustomWidth(15);
+}
+
 .root form {
   // background-color:white;
-  padding: getSizeByCustomWidth(15);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   display: flex;
@@ -60,7 +71,18 @@ header {
   background-color: white;
   input {
     width: 40%;
+    font-size: getSizeByCustomHeight(22);
   }
+  button {
+    font-size: getSizeByCustomHeight(22);
+  }
+}
+
+#sell-value {
+  font-size: getSizeByCustomHeight(22);
+  color: red;
+  margin-top: getSizeByCustomHeight(10);
+  margin-bottom: 0;
 }
 
 .bigger-text {

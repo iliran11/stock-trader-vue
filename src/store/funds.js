@@ -5,6 +5,9 @@ const funds = {
   getters: {
     fundsStatus(state) {
       return state.funds.toLocaleString() + '$';
+    },
+    fundsNumber(state) {
+      return state.funds;
     }
   },
   mutations: {
