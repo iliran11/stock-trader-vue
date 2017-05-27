@@ -10,7 +10,8 @@
         <input class="form-control" v-model="quantity" placeholder="Quantity" type="number"></input>
         <button class="btn btn-danger" @click="sell">Sell</button>
       </form>
-      <p id="sell-value">{{sellValue}}</p>
+      <p v-if="showMessage" id="sell-value">Sell Value: {{sellValue}}$</p>
+      <p v-if="errorMessage" class="error">{{errorMessage}}</p>
     </section>
   </div>
 </template>
@@ -22,12 +23,35 @@ export default {
   },
   data() {
     return {
-      quantity: null
+      quantity: 0
     }
   },
   computed: {
     sellValue() {
-      return this.quantity ? `Sell Value:${this.quantity * this.stock.currentPrice}` : ''
+      return this.quantity * this.stock.currentPrice
+    },
+    showMessage() {
+      return this.getQuantity > 0 && this.isEnoughPortfolioQuantity;
+    },
+    getQuantity() {
+      return parseInt(this.quantity) || 0;
+    },
+    isQuantityPositive() {
+      return this.getQuantity > 0 || this.quantity === null
+    },
+    errorMessage() {
+      if (this.getQuantity > this.stock.portfolioQuantity) {
+        return 'You dont have enough stocks to sell this amount'
+      }
+      if (!this.isQuantityPositive) {
+        return 'Please Enter positive Number'
+      }
+    },
+    isError() {
+      return this.quantity > this.stock.portfolioQuantity
+    },
+    isEnoughPortfolioQuantity() {
+      return this.quantity <= this.stock.portfolioQuantity
     }
   },
   methods: {
@@ -80,7 +104,7 @@ section {
 
 #sell-value {
   font-size: getSizeByCustomHeight(22);
-  color: red;
+  color: #20abab;
   margin-top: getSizeByCustomHeight(10);
   margin-bottom: 0;
 }
@@ -91,5 +115,10 @@ section {
 
 .smaller-text {
   font-size: getSizeByCustomHeight(12);
+}
+
+.error {
+  color: red;
+  font-size: getSizeByCustomHeight(16);
 }
 </style>

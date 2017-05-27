@@ -9,30 +9,53 @@
         <input v-model="quantity" class="form-control" placeholder="Quantity" type="number"></input>
         <button class="btn btn-success animated" @click="buy">Buy</button>
       </form>
-      <p v-if="!isError" id="buy-value">{{buyValue}}</p>
-      <p v-if="isError" id="buy-value">{{buyValue}}</p>
+      <p :style="{visibility: (showMessage) ? 'visible' : 'hidden'}" id="buy-value">Buy Value: {{buyValue}}</p>
+      <p v-if="isError" class="error">{{errorMessage}}</p>
     </section>
   </div>
 </template>
 
 <script>
-import { animate } from '../assets/helpers.js';
-const animationClass = 'jello'
-console.log(animate, animationClass);
 export default {
+  name: 'stock-new',
   data() {
     return {
-      quantity: null,
-      inputQuantity: '',
-      isError: false
+      quantity: null
     }
   },
   computed: {
-    buyValue() {
-      return this.quantity ? `Buy Value: ${this.quantity * this.stock.currentPrice}$` : null
+    isError() {
+      if (this.isEnoughFunds && this.isQuantityPositive) {
+        return false;
+      }
+      return true;
     },
-    quantityInput() {
-      return this.quantity > 0 ? this.quantity : ' '
+    isQuantityPositive() {
+      return this.getQuantity > 0 || this.quantity === null
+    },
+    isEnoughFunds() {
+      const buyAmount = this.getQuantity * this.stock.currentPrice;
+      if (buyAmount <= this.$store.getters['fundsNumber']) {
+        return true
+      }
+      return false;
+    },
+    getQuantity() {
+      return parseInt(this.quantity) || 0;
+    },
+    errorMessage() {
+      if (!this.isQuantityPositive) {
+        return 'Please Enter Positive Number'
+      }
+      if (!this.isEnoughFunds) {
+        return 'You Do not have Enough funds to buy this amount';
+      }
+    },
+    buyValue() {
+      return this.quantity ? `${this.quantity * this.stock.currentPrice}$` : ' '
+    },
+    showMessage() {
+      return parseInt(this.quantity) > 0 && this.isEnoughFunds
     }
   },
   props: {
@@ -40,11 +63,10 @@ export default {
   },
   methods: {
     buy(e) {
-      const buyAmount = parseInt(this.quantity) * this.stock.currentPrice;
       // checking if there are enough funds to make the buy
-      if (buyAmount < this.$store.getters['fundsNumber']) {
+      if (this.isEnoughFunds) {
         this.sendBuyOrder();
-      } else {
+        this.quantity = null;
       }
     },
     sendBuyOrder() {
@@ -54,7 +76,6 @@ export default {
         currentPrice: this.stock.currentPrice
       });
     }
-
   }
 }
 </script>
@@ -62,7 +83,7 @@ export default {
 <style scoped lang="scss">
 @import '../assets/functions';
 .root {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 header {
@@ -77,6 +98,7 @@ section {
   border-bottom-right-radius: 10px;
   border: 1px solid #d6e9c6;
   padding: getSizeByCustomWidth(15);
+  position: relative;
 }
 
 .root form {
@@ -108,6 +130,6 @@ section {
 
 .error {
   color: red;
-  font-size: getSizeByCustomHeight(22);
+  font-size: getSizeByCustomHeight(16);
 }
 </style>

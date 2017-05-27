@@ -4,7 +4,6 @@ const portfolio = {
   },
   getters: {
     getPortfolio(state, getters, rootState) {
-      console.log(state.portfolio);
       return state.portfolio.map(currentStock => {
         return {
           name: state.portfolio.name,
