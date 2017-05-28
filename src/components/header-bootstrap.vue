@@ -17,13 +17,13 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a @click="endDay">End Day </a>
+            <a id="end-day" @click="endDay">End Day </a>
           </li>
           <li>
             <a>Save&Load</a>
           </li>
           <li>
-            <a v-on:click.prevent :style="{'font-weight':'bold'}" href="">Funds: {{funds}}</a>
+            <a v-on:click.prevent id="funds" :style="{'font-weight':'bold'}" href="">Funds: {{funds}}</a>
           </li>
           <li>
             <a v-on:click.prevent>Turn: {{turn}}</a>
@@ -53,3 +53,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#end-day {
+  cursor: pointer;
+}
+
+#funds {
+  cursor: default;
+}
+</style>

@@ -10,7 +10,7 @@
         <input class="form-control" v-model="quantity" placeholder="Quantity" type="number"></input>
         <button class="btn btn-danger" @click="sell">Sell</button>
       </form>
-      <p v-if="showMessage" id="sell-value">Sell Value: {{sellValue}}$</p>
+      <p v-if="showSellValue" id="sell-value">Sell Value: {{sellValue}}$</p>
       <p v-if="errorMessage" class="error">{{errorMessage}}</p>
     </section>
   </div>
@@ -30,14 +30,14 @@ export default {
     sellValue() {
       return this.quantity * this.stock.currentPrice
     },
-    showMessage() {
+    showSellValue() {
       return this.getQuantity > 0 && this.isEnoughPortfolioQuantity;
     },
     getQuantity() {
       return parseInt(this.quantity) || 0;
     },
     isQuantityPositive() {
-      return this.getQuantity > 0 || this.quantity === null
+      return this.getQuantity >= 0 || this.quantity === null
     },
     errorMessage() {
       if (this.getQuantity > this.stock.portfolioQuantity) {
@@ -56,11 +56,13 @@ export default {
   },
   methods: {
     sell() {
-      this.$store.dispatch('buySell', {
-        stockName: this.stock.name,
-        quantityChange: parseInt(this.quantity) * -1,
-        currentPrice: this.stock.currentPrice
-      })
+      if (!this.errorMessage) {
+        this.$store.dispatch('buySell', {
+          stockName: this.stock.name,
+          quantityChange: parseInt(this.quantity) * -1,
+          currentPrice: this.stock.currentPrice
+        })
+      }
     }
   }
 }

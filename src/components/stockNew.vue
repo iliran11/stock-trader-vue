@@ -9,7 +9,7 @@
         <input v-model="quantity" class="form-control" placeholder="Quantity" type="number"></input>
         <button class="btn btn-success animated" @click="buy">Buy</button>
       </form>
-      <p :style="{visibility: (showMessage) ? 'visible' : 'hidden'}" id="buy-value">Buy Value: {{buyValue}}</p>
+      <p v-if="showMessage" id="buy-value">Buy Value: {{buyValue}}</p>
       <p v-if="isError" class="error">{{errorMessage}}</p>
     </section>
   </div>
