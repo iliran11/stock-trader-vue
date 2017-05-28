@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <app-header></app-header>
-    <router-view></router-view>
+    <transition name="router-transition">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -21,6 +23,19 @@ export default {
 <style>
 html {
   box-sizing: border-box;
+}
+
+router-transition-enter {
+  opacity: 0;
+}
+
+router-transition-enter-active {
+  transition: opacity 10s;
+}
+
+router-transition-leave-active {
+  opacity: 0;
+  transition: opacity 10s;
 }
 
 *,
