@@ -30,6 +30,16 @@ export default {
     PurchaseMessage() {
       return parseInt(this.quantity) > 0 && this.isEnoughFunds
     },
+    buyValue() {
+      return this.quantity ? `${this.quantity * this.stock.currentPrice}$` : ' '
+    },
+    isEnoughFunds() {
+      const buyAmount = this.getQuantity * this.stock.currentPrice;
+      if (buyAmount <= this.$store.getters['fundsNumber']) {
+        return true
+      }
+      return false;
+    },
     isQuantityPositive() {
       return this.getQuantity > 0 || this.quantity === null
     },
@@ -41,19 +51,9 @@ export default {
         return 'You Do not have Enough funds to buy this amount';
       }
     },
-    isEnoughFunds() {
-      const buyAmount = this.getQuantity * this.stock.currentPrice;
-      if (buyAmount <= this.$store.getters['fundsNumber']) {
-        return true
-      }
-      return false;
-    },
     getQuantity() {
       return parseInt(this.quantity) || 0;
     },
-    buyValue() {
-      return this.quantity ? `${this.quantity * this.stock.currentPrice}$` : ' '
-    }
   },
   props: {
     stock: {}
