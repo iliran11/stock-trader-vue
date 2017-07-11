@@ -9,8 +9,8 @@
         <input v-model="quantity" class="form-control" placeholder="Quantity" type="number"></input>
         <button class="btn btn-success animated" @click="buy">Buy</button>
       </form>
-      <p v-if="showMessage" id="buy-value">Buy Value: {{buyValue}}</p>
-      <p v-if="isError" class="error">{{errorMessage}}</p>
+      <p v-if="PurchaseMessage" id="buy-value">Buy Value: {{buyValue}}</p>
+      <p v-if="isError" class="error">{{getErrorMessage}}</p>
     </section>
   </div>
 </template>
@@ -25,13 +25,21 @@ export default {
   },
   computed: {
     isError() {
-      if (this.isEnoughFunds && this.isQuantityPositive) {
-        return false;
-      }
-      return true;
+      return !(this.isEnoughFunds && this.isQuantityPositive)
+    },
+    PurchaseMessage() {
+      return parseInt(this.quantity) > 0 && this.isEnoughFunds
     },
     isQuantityPositive() {
       return this.getQuantity > 0 || this.quantity === null
+    },
+    getErrorMessage() {
+      if (!this.isQuantityPositive) {
+        return 'Please Enter Positive Number'
+      }
+      if (!this.isEnoughFunds) {
+        return 'You Do not have Enough funds to buy this amount';
+      }
     },
     isEnoughFunds() {
       const buyAmount = this.getQuantity * this.stock.currentPrice;
@@ -43,19 +51,8 @@ export default {
     getQuantity() {
       return parseInt(this.quantity) || 0;
     },
-    errorMessage() {
-      if (!this.isQuantityPositive) {
-        return 'Please Enter Positive Number'
-      }
-      if (!this.isEnoughFunds) {
-        return 'You Do not have Enough funds to buy this amount';
-      }
-    },
     buyValue() {
       return this.quantity ? `${this.quantity * this.stock.currentPrice}$` : ' '
-    },
-    showMessage() {
-      return parseInt(this.quantity) > 0 && this.isEnoughFunds
     }
   },
   props: {
