@@ -33,13 +33,13 @@ export default {
     buyValue() {
       return this.quantity ? `${this.quantity * this.stock.currentPrice}$` : ' '
     },
-    // isEnoughFunds() {
-    //   const buyAmount = this.getQuantity * this.stock.currentPrice;
-    //   if (buyAmount <= this.$store.getters['fundsNumber']) {
-    //     return true
-    //   }
-    //   return false;
-    // },
+    isEnoughFunds() {
+      const buyAmount = this.getQuantity * this.stock.currentPrice;
+      if (buyAmount <= this.$store.getters['fundsNumber']) {
+        return true
+      }
+      return false;
+    },
     isQuantityPositive() {
       return this.getQuantity > 0 || this.quantity === null
     },
@@ -66,13 +66,13 @@ export default {
         this.quantity = null;
       }
     },
-    // sendBuyOrder() {
-    //   this.$store.dispatch('buySell', {
-    //     stockName: this.stock.name,
-    //     quantityChange: parseInt(this.quantity),
-    //     currentPrice: this.stock.currentPrice
-    //   });
-    // }
+    sendBuyOrder() {
+      this.$store.dispatch('buySell', {
+        stockName: this.stock.name,
+        quantityChange: parseInt(this.quantity),
+        currentPrice: this.stock.currentPrice
+      });
+    }
   }
 }
 </script>
