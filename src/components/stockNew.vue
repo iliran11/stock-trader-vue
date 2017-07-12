@@ -2,7 +2,7 @@
   <div class="root">
     <header class="buy">
       <span class="bigger-text">{{stock.name}}</span>
-      <span class="smaller-text">(Price: {{stock.currentPrice}})</span>
+      <span class="price">(Price: {{stock.currentPrice}})</span>
     </header>
     <section>
       <form class="buy" v-on:submit.prevent>
@@ -121,7 +121,7 @@ section {
   font-size: getSizeByCustomHeight(18);
 }
 
-.smaller-text {
+.price {
   font-size: getSizeByCustomHeight(12);
 }
 
